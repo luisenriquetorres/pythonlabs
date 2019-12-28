@@ -9,7 +9,7 @@ num_of_windows = input('How many windows are in the room you want to feet? ')
 num_of_windows = int(num_of_windows)
 num_of_doors = input('How many doors are in the room you want to feet? ')
 num_of_doors = int(num_of_doors)
-
+#
 
 wall_area = ((2*lengh*height)+(2*width*height))
 wall_area = int(wall_area)
