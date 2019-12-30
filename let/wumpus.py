@@ -1,9 +1,8 @@
 # Hunt the Wumpus
+import random
+from colorama import Fore, Back, Style
 
 # First let's make a 24 room maze.
-num_rooms=18
-exits_per_room=3
-
 maze = [
     [5,6,1], #room0
     [0,8,2], #room1
@@ -29,15 +28,72 @@ room_name = ['Main Gate', 'Dark Cave', 'Small Temple', 'Unknown Corridor', 'Crys
 'Sandy Arena', 'Heathen Hall', 'Minion Quarters', 'Stone Sanctum', 'Mossy Quarry',
 'Narrow Corridor', 'Throne Room', 'Large Temple']
 
-player = 0
+def print_maze(player_location):
 
-while (1==1):
-    print(f'You are in the {room_name[player]}.')
-    print(f'There are exits that take you to the {room_name[maze[player][0]]}, the {room_name[maze[player][1]]} and the the {room_name[maze[player][2]]}.')
+    rooms=[' 0',' 1',' 2',' 3', ' 4', ' 5',
+        ' 6', ' 7', ' 8', ' 9', '10',
+        '11', '12', '13', '14', '15',
+        '16', '17']
+
+    rooms[player_location] = Back.BLUE + rooms[player_location] + Style.RESET_ALL
+    print('')
+    print(f'         /---{rooms[0]}---\ ')
+    print(f'        /     |    \ ')
+    print(f'   /---/    /{rooms[6]}\    \---\ ')
+    print(f'  /        /    \        \ ')
+    print(f'{rooms[5]}       {rooms[15]}     {rooms[7]}\      {rooms[1]}')
+    print(f' | \--\  / \   /   \ /--/ |')
+    print(f' |     {rooms[14]}    {rooms[16]}    {rooms[8]}     |')
+    print(f' |      |     |     |     |')
+    print(f' |     {rooms[13]}    {rooms[17]}    {rooms[9]}     |')
+    print(f' | /--/ \  /   \   / \--\ |')
+    print(f'{rooms[4]}       {rooms[12]}     {rooms[10]}/      {rooms[2]}')
+    print(f'  \        \    /        /')
+    print(f'   \---\    \\{rooms[11]}/    /---/')
+    print(f'        \     |    /')
+    print(f'         \---{rooms[3]}---/')
+    print('')
+    # print('         /---00---\ ')
+    # print('        /     |    \ ')
+    # print('   /---/    /06\    \---\ ')
+    # print('  /        /    \        \ ')
+    # print('05       15     07\      01')
+    # print(' | \--\  / \   /   \ /--/ |')
+    # print(' |     14    16    08     |')
+    # print(' |      |     |     |     |')
+    # print(' |     13    17    09     |')
+    # print(' | /--/ \  /   \   / \--\ |')
+    # print('04       12     10/      02')
+    # print('  \        \    /        /')
+    # print('   \---\    \\11/    /---/')
+    # print('        \     |    /')
+    # print('         \---03---/')
+
+
+def random_arrow_location(other_place):
+    while True:
+        arrow = random.randint(1,17)
+        if (other_place != arrow):
+            break
+    return arrow
+
+player = 0
+wumpus = random.randint(1,17)
+arrow = random_arrow_location(wumpus)
+player_has_arrow = False
+
+while (True):
+    print_maze(player)
+    print(f'You are in room  {player}.')
+    print(f'There are exits that take you to rooms {maze[player][0]}, {maze[player][1]} and {maze[player][2]}.')
     
     new_location = player
     while(new_location == player):
-        new_location = input('Enter a room number to move to: ')
+        input_ask = 'Enter a room number to move to'
+        if (player_has_arrow == True):
+            input_ask = input_ask + ', or A to fire the arrow'
+        input_ask = input_ask + ': '
+        new_location = input(input_ask)
         new_location = int(new_location)
         if (new_location != maze[player][0] and new_location != maze[player][1] and new_location != maze[player][2]):
             print('invalid location, try again.')
@@ -48,3 +104,17 @@ while (1==1):
             new_location = 19
 
 
+"""     print_player_location()
+    #
+    choice = get_player_choice()
+    if (choice == 'a'):
+        attack = attack_wumpus()
+        if (attack == True):
+            print('You won! You killed the wumpus!')
+            quit()
+        else:
+            print('You missed! You lost the arrow... hopefully there are more arrows somewhere.')
+            arrow = random_arrow_location(wumpus)
+    else:
+        player = choice
+ """
