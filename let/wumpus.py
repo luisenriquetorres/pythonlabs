@@ -1,6 +1,7 @@
 # Hunt the Wumpus
 import random
-from colorama import Fore, Back, Style
+from colorama import init, Fore, Back, Style
+init(convert=True)
 
 # First let's make a 24 room maze.
 maze = [
