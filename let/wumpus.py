@@ -21,7 +21,7 @@ maze = [
     [14,12,4], #room13
     [5,15,13], #room14
     [6,16,14], #room15
-    [15,7,16], #room16
+    [15,7,17], #room16
     [16,12,10]] #room17
 
 room_name = ['Main Gate', 'Dark Cave', 'Small Temple', 'Unknown Corridor', 'Crystal Chamber',
@@ -29,8 +29,8 @@ room_name = ['Main Gate', 'Dark Cave', 'Small Temple', 'Unknown Corridor', 'Crys
 'Sandy Arena', 'Heathen Hall', 'Minion Quarters', 'Stone Sanctum', 'Mossy Quarry',
 'Narrow Corridor', 'Throne Room', 'Large Temple']
 
+#print_maze: visually print the maze and show player location
 def print_maze(player_location):
-
     rooms=[' 0',' 1',' 2',' 3', ' 4', ' 5',
         ' 6', ' 7', ' 8', ' 9', '10',
         '11', '12', '13', '14', '15',
@@ -70,7 +70,6 @@ def print_maze(player_location):
     # print('        \     |    /')
     # print('         \---03---/')
 
-
 def random_arrow_location(other_place):
     while True:
         arrow = random.randint(1,17)
@@ -85,37 +84,64 @@ player_has_arrow = False
 
 while (True):
     print_maze(player)
-    print(f'You are in room  {player}.')
-    print(f'There are exits that take you to rooms {maze[player][0]}, {maze[player][1]} and {maze[player][2]}.')
+#    print(f'You are in room  {player}.')
+#    print(f'There are exits that take you to rooms {maze[player][0]}, {maze[player][1]} and {maze[player][2]}.')
+    if (arrow == maze[player][0] or arrow == maze[player][1] or arrow == maze[player][2]):
+        print('you see the glint of reflected light coming from somewhere. The arrow is in a room nearby!')
     
+    if (wumpus == maze[player][0] or wumpus == maze[player][1] or wumpus == maze[player][2]):
+        print('you hear a menacing growl. The wumpus is in a room nearby!')
+    
+    if (player == wumpus):
+        print('The wumpus is here! It lunges at you and kills you in a few seconds.')
+        print('GAME OVER. YOU LOSE!')
+        quit()
+    
+    if (player == arrow):
+        print('the bow and arrow are here! You grab them. Now you can use them to kill the wumpus!')
+        arrow = 18 #a non-existent room
+        player_has_arrow = True
+
     new_location = player
     while(new_location == player):
         input_ask = 'Enter a room number to move to'
         if (player_has_arrow == True):
-            input_ask = input_ask + ', or A to fire the arrow'
+            input_ask = input_ask + ', or enter A to fire the arrow'
         input_ask = input_ask + ': '
-        new_location = input(input_ask)
-        new_location = int(new_location)
-        if (new_location != maze[player][0] and new_location != maze[player][1] and new_location != maze[player][2]):
-            print('invalid location, try again.')
-            new_location = player
+        player_input = input(input_ask)
+        if (player_input.lower() == 'a' and player_has_arrow == True):
+            #player is firing the arrow (he has it)
+            while True:
+                print(f'You can fire the arrow at room {maze[player][0]}, {maze[player][1]} or {maze[player][2]}.')
+                arrow_input = input('Which room do you want to fire it at?')
+                if (arrow_input.isnumeric()):
+                    arrow_destination = int(arrow_input)
+                    if (arrow_destination == maze[player][0] or arrow_destination == maze[player][1] or arrow_destination == maze[player][2]):
+                        break
+            
+            if (arrow_destination == wumpus):
+                print('The wumpus screams in pain and dies. You killed the wumpus!')
+                print('GAME OVER. YOU WON!')
+                quit()
+            
+            print('the arrow flies noiselessly into an empty room. You missed the wumpus and lost the arrow.')
+            print('hopefully there is another arrow somewhere nearby.')
+            player_has_arrow = False
+            while True:
+                arrow = random_arrow_location(wumpus)
+                if (arrow != player):
+                    break
         else:
-            print('you move to the new location.')
-            player = new_location
-            new_location = 19
-
-
-"""     print_player_location()
-    #
-    choice = get_player_choice()
-    if (choice == 'a'):
-        attack = attack_wumpus()
-        if (attack == True):
-            print('You won! You killed the wumpus!')
-            quit()
-        else:
-            print('You missed! You lost the arrow... hopefully there are more arrows somewhere.')
-            arrow = random_arrow_location(wumpus)
-    else:
-        player = choice
- """
+            #player is moving to a different room
+            if (player_input.isnumeric() == False):
+                player_input = '18'
+            new_location = int(player_input)
+            if (new_location != maze[player][0] and new_location != maze[player][1] and new_location != maze[player][2]):
+                print('That is not a valid entry, please try again.')
+                new_location = player
+            else:
+                print('you move to the new room.')
+                player = new_location
+                new_location = 18
+        
+    #TODO: Wumpus moves!
