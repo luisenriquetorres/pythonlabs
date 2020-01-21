@@ -1,6 +1,13 @@
 #Hunt the Wumpus
 import random
 
+def comparar_wumpus(posicion_wumpus):
+    while True:
+        objeto = random.randint(1,17)
+        if (objeto != posicion_wumpus):
+            break
+    return objeto
+
 #create a list that contains all the exits 
 maze = [
     [5, 6, 1], #room 0
@@ -25,10 +32,9 @@ maze = [
 
 while(True):
     player = 0  #Player stores the player's current location throughout the game
-    wumpus = random.randint(0, 17) #location of the wumpus. It growls. In an advanced version I'll make sure he has a different location from the other objects
-    pit = random.randint(0, 17) #location of the pit. It smells.
-    gold = random.randint(0, 17) #location of the gold. It glows.
-    #TODO: Ensure that the player, wumpus, gold, and pit are in different rooms.
+    wumpus = random.randint(1, 17) #location of the wumpus. It growls.
+    arrow = comparar_wumpus(wumpus) #location of the arrow. It glows.
+    player_armed = False
 
     #CODE START: Infinite loop so the player can move.
     #The only way to break this loop is for the player to WIN. Or to DIE.
@@ -46,9 +52,17 @@ while(True):
         elif (wumpus == maze[player][0] or
               wumpus == maze[player][1] or
               wumpus == maze[player][2]):
-            print('You hear a growl. The wunpus is near, probably in one of the rooms you see in front of you.')
+            print('You hear a growl. The wumpus is near, probably in one of the rooms you see in front of you.')
 
-        #TODO: tell player if there's a shine or smell.
+        if(arrow == player):
+            print('You walk into the room, and you see a single arrow. You pick it up.')
+            player_armed = True
+            arrow = 18
+        elif (arrow == maze[player][0] or
+              arrow == maze[player][1] or
+              arrow == maze[player][2]):
+            print('You see a glow coming from one of the rooms in front of you. That arrow must be close.')
+
         #TODO: If player goes to room with gold, he wins.
         #TODO: If player goes to pit room, he dies.
         #TODO: explore idea of player finding bow and arrow in the maze, instead of treasure.
