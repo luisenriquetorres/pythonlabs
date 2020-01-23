@@ -6,17 +6,15 @@ def superinput(input_text, valid_option_list):
     #the input command returns a string, and we don't know what we might get
     new_list = [str(i) for i in valid_option_list]
 
-    print(input_text)
-    valid_answers = 'You can enter'
-    last_item = new_list.pop()
+    print(input_text) #we print the question
+    valid_answers = 'You can enter' #now let's start building a string with all the valid options.
+    last_item = new_list.pop() #we take the last value from the list (as that's the value that needs an OR)
     for i in new_list:
-        valid_answers = valid_answers + ' ' + i
-        if len(new_list) > 1:
-            valid_answers = valid_answers + ','
-    valid_answers = valid_answers + ' or ' + last_item +'.'
-#    valid_answers = valid_answers + '.'
+        valid_answers = valid_answers + ' ' + i + ',' #concatenate each option
+    valid_answers = valid_answers[:-1] #the string now has an extra comma, so we remove it.
+    valid_answers = valid_answers + ' or ' + last_item +'.' #now we add the OR and the last item.
     print(valid_answers)
-    new_list.append(last_item)
+    new_list.append(last_item) #and we add the item to the list again.
 
     while (True):
         temp_input = input('Enter your response: ')
