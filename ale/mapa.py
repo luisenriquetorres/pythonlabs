@@ -1,21 +1,36 @@
-player = 3
+player = 8
+cuartos=['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17']
+cuartos[player] = 'xx'
 
-
-print('         /---00---\ ')
+print(f'         /---{cuartos[0]}---\ ')
 print('        /     |    \ ')
-print('   /---/    /06\    \---\ ')
+print(f'   /---/    /{cuartos[6]}\    \---\ ')
 print('  /        /    \        \ ')
-print('05       15     07\      01')
+print(f'{cuartos[5]}       {cuartos[15]}     {cuartos[7]}\      {cuartos[1]}')
 print(' | \--\  / \   /   \ /--/ |')
-print(' |     14    16    08     |')
+print(f' |     {cuartos[14]}    {cuartos[16]}    {cuartos[8]}     |')
 print(' |      |     |     |     |')
-print(' |     13    17    09     |')
+print(f' |     {cuartos[13]}    {cuartos[17]}    {cuartos[9]}     |')
 print(' | /--/ \  /   \   / \--\ |')
-print('04       12     10/      02')
+print(f'{cuartos[4]}       {cuartos[12]}     {cuartos[10]}/      {cuartos[2]}')
 print('  \        \    /        /')
-print('   \---\    \\11/    /---/')
+print(f'   \---\    \\{cuartos[11]}/    /---/')
 print('        \     |    /')
-#print('         \---03---/')
+print(f'         \---{cuartos[3]}---/')
 
-cuarto3 = '03'
-print(f'         \---{cuarto3}---/')
+# print('         /---00---\ ')
+# print('        /     |    \ ')
+# print('   /---/    /06\    \---\ ')
+# print('  /        /    \        \ ')
+# print('05       15     07\      01')
+# print(' | \--\  / \   /   \ /--/ |')
+# print(' |     14    16    08     |')
+# print(' |      |     |     |     |')
+# print(' |     13    17    09     |')
+# print(' | /--/ \  /   \   / \--\ |')
+# print('04       12     10/      02')
+# print('  \        \    /        /')
+# print('   \---\    \\11/    /---/')
+# print('        \     |    /')
+# print('         \---03---/')
+
