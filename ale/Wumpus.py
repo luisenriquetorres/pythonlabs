@@ -1,5 +1,28 @@
 #Hunt the Wumpus
 import random
+from colorama import init, Fore, Back, Style
+init(convert=True)
+
+def print_maze(player_position):
+    cuartos=['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17']
+    cuartos[player_position] = Back.LIGHTRED_EX + cuartos[player_position] + Style.RESET_ALL
+
+
+    print(f'         /---{cuartos[0]}---\ ')
+    print('        /     |    \ ')
+    print(f'   /---/    /{cuartos[6]}\    \---\ ')
+    print('  /        /    \        \ ')
+    print(f'{cuartos[5]}       {cuartos[15]}     {cuartos[7]}\      {cuartos[1]}')
+    print(' | \--\  / \   /   \ /--/ |')
+    print(f' |     {cuartos[14]}    {cuartos[16]}    {cuartos[8]}     |')
+    print(' |      |     |     |     |')
+    print(f' |     {cuartos[13]}    {cuartos[17]}    {cuartos[9]}     |')
+    print(' | /--/ \  /   \   / \--\ |')
+    print(f'{cuartos[4]}       {cuartos[12]}     {cuartos[10]}/      {cuartos[2]}')
+    print('  \        \    /        /')
+    print(f'   \---\    \\{cuartos[11]}/    /---/')
+    print('        \     |    /')
+    print(f'         \---{cuartos[3]}---/')
 
 def comparar_wumpus(posicion_wumpus):
     while True:
@@ -42,6 +65,7 @@ while(True):
     while(True):
         #FIRST: Print player location info: Where he is, what exits are available, whether there's a growl, smell or shine.
         #player location and exits
+        print_maze(player) 
         print(f'You are in room {player}.')
         print(f'You see in front of your 3 rooms: {maze[player][0]}, {maze[player][1]}, and {maze[player][2]}.')
 
@@ -63,23 +87,24 @@ while(True):
               arrow == maze[player][2]):
             print('You see a glow coming from one of the rooms in front of you. That arrow must be close.')
 
-        #TODO: If player goes to room with gold, he wins.
-        #TODO: If player goes to pit room, he dies.
-        #TODO: explore idea of player finding bow and arrow in the maze, instead of treasure.
 
         #TODO: The player should also be able to shoot an arrow at a room. If the wumpus is in the room, it dies and the player wins.
         # if the player misses, he has only one arrow total, so he can't shoot anymore.
 
         #SECOND: Ask the player what he/she wants to do. Infinite loop that is broken when player enters valid option
         while(True):
-            new_room = input('What room do you want to go to? ')
-            new_room = int(new_room) #input returns a string, but we need an integer since room numbers are integers
-            if(new_room == maze[player][0] or
-               new_room == maze[player][1] or
-               new_room == maze[player][2]):
-                break #valid entry, break the loop and continue
+            if (player_armed == True):
+                first_imput = input('What room do you want to go to? Or, if you want, press A to shoot arrow: ')
+                # code to process arrow and movement
             else:
-                print('Learn to read.') #invalid entry. Ask again! 
+                new_room = input('What room do you want to go to? ')
+                new_room = int(new_room) #input returns a string, but we need an integer since room numbers are integers
+                if(new_room == maze[player][0] or
+                new_room == maze[player][1] or
+                new_room == maze[player][2]):
+                    break #valid entry, break the loop and continue
+                else:
+                    print('Learn to read.') #invalid entry. Ask again! 
         player = int(new_room) #Here the player changes location
 
         #TODO: Make the wumpus move! random.randint(0,2). Before that, sometimes he doesnt move (random). Wumpus doesnt return to previous room.
