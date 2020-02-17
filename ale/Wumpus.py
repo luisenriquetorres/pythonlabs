@@ -31,6 +31,31 @@ def comparar_wumpus(posicion_wumpus):
             break
     return objeto
 
+def superinput(input_text, valid_option_list):
+    # input_text is a string that I will print every time I ask the player for input.
+    # valid_option_list is a list of strings that includes all valid options for entry.
+
+    #first, let's convert every item in the list to a STRING! This is because
+    #the input command returns a string, and we don't know what we might get
+    new_list = [str(i) for i in valid_option_list]
+
+    print(input_text) #we print the question
+    valid_answers = 'You can enter' #now let's start building a string with all the valid options.
+    last_item = new_list.pop() #we take the last value from the list (as that's the value that needs an OR)
+    for i in new_list:
+        valid_answers = valid_answers + ' ' + i + ',' #concatenate each option
+    valid_answers = valid_answers[:-1] #the string now has an extra comma, so we remove it.
+    valid_answers = valid_answers + ' or ' + last_item +'.' #now we add the OR and the last item.
+    print(valid_answers)
+    new_list.append(last_item) #and we add the item to the list again.
+
+    while (True):
+        temp_input = input('Enter your response: ')
+        if temp_input not in new_list:
+            print('Invalid entry. Please try again.')
+        else:
+            return(temp_input)
+
 #create a list that contains all the exits 
 maze = [
     [5, 6, 1], #room 0
@@ -52,7 +77,6 @@ maze = [
     [15, 7, 17], #room 16
     [16, 12, 10]] #room 17
 
-
 while(True):
     player = 0  #Player stores the player's current location throughout the game
     wumpus = random.randint(1, 17) #location of the wumpus. It growls.
@@ -67,7 +91,7 @@ while(True):
         #player location and exits
         print_maze(player) 
         print(f'You are in room {player}.')
-        print(f'You see in front of your 3 rooms: {maze[player][0]}, {maze[player][1]}, and {maze[player][2]}.')
+        # print(f'You see in front of your 3 rooms: {maze[player][0]}, {maze[player][1]}, and {maze[player][2]}.')
 
         #now to see if there's a wumpus smell, or if the wumpus is here (player is dead!)
         if(wumpus == player):
@@ -87,28 +111,28 @@ while(True):
               arrow == maze[player][2]):
             print('You see a glow coming from one of the rooms in front of you. That arrow must be close.')
 
+        # IF player_armed = true       
+        #    ask "move or shoot?"
+        #    if "shoot"
+        #       ask "Where do you want to shoot the arrow? 0, 1, 2?"
+        #       shoot the arrow to room x
+        #       if wumpus in room x
+        #           they win
+        #           end
+        #       else
+        #           player_armed = false
+        #           arrow move to random room without wumpus or player
+        #           repeat
 
-        #TODO: The player should also be able to shoot an arrow at a room. If the wumpus is in the room, it dies and the player wins.
-        # if the player misses, he has only one arrow total, so he can't shoot anymore.
-
-        #SECOND: Ask the player what he/she wants to do. Infinite loop that is broken when player enters valid option
-        while(True):
-            if (player_armed == True):
-                first_imput = input('What room do you want to go to? Or, if you want, press A to shoot arrow: ')
-                # code to process arrow and movement
-            else:
-                new_room = input('What room do you want to go to? ')
-                new_room = int(new_room) #input returns a string, but we need an integer since room numbers are integers
-                if(new_room == maze[player][0] or
-                new_room == maze[player][1] or
-                new_room == maze[player][2]):
-                    break #valid entry, break the loop and continue
-                else:
-                    print('Learn to read.') #invalid entry. Ask again! 
-        player = int(new_room) #Here the player changes location
+        # ask "what room? 0, 1, 2?"
+        input_text = 'What room do you want to go to?'
+        input_list = [maze[player][0], maze[player][1], maze[player][2]]
+        move_answer = superinput(input_text, input_list)
+        # move to room x 
+        player = int(move_answer)
+        # repeat           
 
         #TODO: Make the wumpus move! random.randint(0,2). Before that, sometimes he doesnt move (random). Wumpus doesnt return to previous room.
-
     play_again = input('Would you like to play again? ')
     if(play_again == 'no'):
         break

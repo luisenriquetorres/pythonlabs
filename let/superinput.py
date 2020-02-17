@@ -24,7 +24,7 @@ def superinput(input_text, valid_option_list):
             return(temp_input)
 
 a = 'What room do you want to go to?'
-b = [2, 4, '88']
+b = [2, 4, 5, 'a', 'pepe', 8,'88']
 #b = [2,4]
 #print('what room should I go to?')
 #print(f'Valid options are {b[0]}, {b[1]} and {b[2]}.')
